@@ -21,12 +21,15 @@ const shopSearchRouter = require("./routes/shop/search-routes");
 const shopReviewRouter = require("./routes/shop/review-routes");
 
 const commonFeatureRouter = require("./routes/common/feature-routes");
-
+const path = require('path');
 
 
 
 
 const app = express();
+
+const _dirname = path.resolve();
+
 
 //Middlewares 
 
@@ -61,6 +64,11 @@ app.use("/api/shop/search", shopSearchRouter);
 app.use("/api/shop/review", shopReviewRouter);
 
 app.use("/api/common/feature", commonFeatureRouter);
+
+app.use(express.static(path.join(_dirname, "/client/dist")))
+app.get('*' , (req,res)=>{
+    res.sendFile(path.resolve(_dirname, "client","dist","index.html"));
+})
 
 
 const PORT = process.env.PORT || 5000;
